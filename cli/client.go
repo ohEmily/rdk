@@ -895,6 +895,7 @@ func (c *AppClient) UploadModuleFile(
 	platform string,
 	organizationID *string,
 	file *os.File,
+	archiveFilename string,
 ) (*apppb.UploadModuleFileResponse, error) {
 	if err := c.ensureLoggedIn(); err != nil {
 		return nil, err
@@ -905,11 +906,13 @@ func (c *AppClient) UploadModuleFile(
 	if err != nil {
 		return nil, err
 	}
+
 	moduleFileInfo := apppb.ModuleFileInfo{
 		ModuleId:       moduleID,
 		OrganizationId: organizationID,
 		Version:        version,
 		Platform:       platform,
+		Filename:       &archiveFilename,
 	}
 	req := &apppb.UploadModuleFileRequest{
 		ModuleFile: &apppb.UploadModuleFileRequest_ModuleFileInfo{ModuleFileInfo: &moduleFileInfo},
